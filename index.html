@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lydia's Noughts and Crosses</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>Noughts and Crosses</header>
+    <main>
+      <div>this is where the game will go</div>
+      <div id="players">
+        <div id="X">X</div>
+        <div id="O">O</div>
+      </div>
+      <div id="dice-container">
+        <button id="dice" onClick="">Roll for Initiative!</button>
+        <div id="current-turn"></div>
+      </div>
+      <div id="grid-container">
+        <table id="table">
+          <tr id="first-row">
+            <td class="left"><button class="cell" id="1"></button></td>
+            <td class="center"><button class="cell" id="2"></button></td>
+            <td class="right"><button class="cell" id="3"></button></td>
+          </tr>
+          <tr id="second-row">
+            <td class="left"><button class="cell" id="4"></button></td>
+            <td class="center"><button class="cell" id="5"></button></td>
+            <td class="right"><button class="cell" id="6"></button></td>
+          </tr>
+          <tr id="third-row">
+            <td class="left"><button class="cell" id="7"></button></td>
+            <td class="center"><button class="cell" id="8"></button></td>
+            <td class="right"><button class="cell" id="9"></button></td>
+          </tr>
+        </table>
+      </div>
+    </main>
+    <script>
+      //put the functions here!
+
+      let dice = document.querySelector('#dice');
+      const Xplayer = document.querySelector('#X');
+      const Oplayer = document.querySelector('#O');
+      const turn = document.querySelector('#current-turn');
+      const cell = document.querySelector('.cell');
+
+      let gameStarted = false;
+      let gameEnded = false;
+      let xTurn = false;
+      let oTurn = false;
+
+      const rollForInitiative = () => {
+        const playerX = Math.floor(Math.random() * 20) + 1;
+        const playerO = Math.floor(Math.random() * 20) + 1;
+
+        if (playerX > playerO) {
+          Xplayer.style.backgroundColor = 'green';
+          turn.innerText = "Player X's turn";
+          xTurn = true;
+          gameStarted = true;
+          dice.style.display = 'none';
+        } else if (playerX < playerO) {
+          turn.innerText = "Player O's turn";
+          Oplayer.style.backgroundColor = 'green';
+          oTurn = true;
+          gameStarted = true;
+          dice.style.display = 'none';
+        } else if (playerX === playerO) {
+          rollForInitiative();
+        }
+      };
+
+      dice.addEventListener('click', rollForInitiative);
+
+      //an function to determine what player is clicking and what cell?
+      const whatsHappening = (clickEvent) => {
+        if (!gameEnded && gameStarted) {
+          if (
+            clickEvent.target.matches('.cell') &&
+            clickEvent.target.innerText === ''
+          ) {
+            if (xTurn) {
+              clickEvent.target.innerText = 'X';
+              xTurn = false;
+              oTurn = true;
+              turn.innerText = "Player O's turn";
+              Oplayer.style.backgroundColor = 'green';
+              Xplayer.style.backgroundColor = 'white';
+            } else if (oTurn) {
+              clickEvent.target.innerText = 'O';
+              oTurn = false;
+              xTurn = true;
+              Xplayer.style.backgroundColor = 'green';
+              Oplayer.style.backgroundColor = 'white';
+              turn.innerText = "Player X's turn";
+            }
+          }
+        }
+      };
+
+      table.addEventListener('click', whatsHappening);
+
+      const checkForWinner = () => {
+        if (gameStarted) {
+          //what are winning combos? first check oh god this is like an algo problem...
+          //check cell one & cell two no?
+        }
+      };
+
+      if (gameEnded) {
+        dice.style.display = 'block';
+      }
+    </script>
+  </body>
+</html>
+
+<!-- 
+tic tac toe is a 3 by 3 grid? smallest version 
+two players 
+game ends when theres's three in a row or all cells are filled (draw)
+
+probably 11 - 12.30, 2.30-3.30
+ -->
