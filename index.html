@@ -68,8 +68,6 @@
       const rollForInitiative = () => {
         const playerX = Math.floor(Math.random() * 20) + 1;
         const playerO = Math.floor(Math.random() * 20) + 1;
-        console.log({ playerO });
-        console.log({ playerX });
         if (playerX > playerO) {
           Xplayer.style.backgroundColor = 'green';
           turn.innerText = "Player X's turn";
@@ -166,11 +164,13 @@
       const endGame = (condition) => {
         if (condition === 'Draw') {
           turn.innerText = "It's a draw!";
+          playerTile.style.backgroundColor = 'white';
+          replayButton.style.display = 'block';
         } else if (condition === 'Win') {
           turn.innerText = `Player ${winner} wins!`;
+          playerTile.style.backgroundColor = 'white';
+          replayButton.style.display = 'block';
         }
-        playerTile.style.backgroundColor = 'white';
-        replayButton.style.display = 'block';
       };
 
       //an function to determine what player is clicking and what cell?
