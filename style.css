@@ -3,6 +3,11 @@ html {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: chocolate;
+}
 #players {
   display: flex;
   justify-content: center;
@@ -36,6 +41,16 @@ html {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#dice {
+  height: 70px;
+  width: 70px;
+}
+
+#current-turn {
+  text-align: center;
 }
 
 #table {
@@ -78,4 +93,14 @@ td {
 
 .cell:hover {
   background-color: grey;
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+#restart {
+  display: none;
 }

@@ -6,17 +6,17 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>Noughts and Crosses</header>
+    <header><h1>Noughts and Crosses</h1></header>
     <main>
-      <div>this is where the game will go</div>
       <div id="players">
-        <div id="X">X</div>
-        <div id="O">O</div>
+        <div class="player-tile" id="X">X</div>
+        <div class="player-tile" id="O">O</div>
       </div>
       <div id="dice-container">
         <button id="dice" onClick="">Roll for Initiative!</button>
-        <div id="current-turn"></div>
       </div>
+      <div id="current-turn"></div>
+
       <div id="grid-container">
         <table id="table">
           <tr id="first-row">
@@ -36,25 +36,40 @@
           </tr>
         </table>
       </div>
+      <div id="button-container">
+        <button id="restart">Play Again?</button>
+      </div>
     </main>
     <script>
       //put the functions here!
 
+      //selectors
       let dice = document.querySelector('#dice');
       const Xplayer = document.querySelector('#X');
       const Oplayer = document.querySelector('#O');
       const turn = document.querySelector('#current-turn');
       const cell = document.querySelector('.cell');
+      const table = document.querySelector('#table');
+      const replayButton = document.querySelector('#restart');
+      const playerTile = document.querySelector('.player-tile');
 
+      let game = new Array(
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+      );
       let gameStarted = false;
       let gameEnded = false;
       let xTurn = false;
       let oTurn = false;
+      let winner;
+      let gameEndInDraw = false;
 
       const rollForInitiative = () => {
         const playerX = Math.floor(Math.random() * 20) + 1;
         const playerO = Math.floor(Math.random() * 20) + 1;
-
+        console.log({ playerO });
+        console.log({ playerX });
         if (playerX > playerO) {
           Xplayer.style.backgroundColor = 'green';
           turn.innerText = "Player X's turn";
@@ -72,7 +87,91 @@
         }
       };
 
-      dice.addEventListener('click', rollForInitiative);
+      const logMove = (position, piece) => {
+        const row = Math.floor((position - 1) / 3);
+        const column = (position - 1) % 3;
+        game[row][column] = piece;
+      };
+
+      const gameWinner = () => {
+        //rows
+        for (let i = 0; i < game.length; i++) {
+          let firstCell = game[i][0];
+          if (firstCell !== null) {
+            for (let j = 1; j < game.length; j++) {
+              if (firstCell !== game[i][j]) {
+                break;
+              } else if (j === game[i].length - 1) {
+                return firstCell;
+              }
+            }
+          }
+        }
+
+        //column
+        for (let i = 0; i < game.length; i++) {
+          let firstCell = game[0][i];
+          if (firstCell !== null) {
+            for (let j = 1; j < game.length; j++) {
+              if (firstCell !== game[j][i]) {
+                break;
+              } else if (j === game.length - 1) {
+                return firstCell;
+              }
+            }
+          }
+        }
+
+        //diagonal
+        let leftStart = game[0][0];
+        let rightStart = game[0][game.length - 1];
+
+        if (leftStart !== null) {
+          for (let i = 1; i < game.length; i++) {
+            if (game[i][i] !== leftStart) {
+              break;
+            } else if (i === game.length - 1) {
+              return leftStart;
+            }
+          }
+        } else if (rightStart !== null) {
+          for (let i = 1, j = game.length - 2; i < game.length; i++, j--) {
+            if (game[i][j] !== rightStart) {
+              break;
+            } else if (j === 0) {
+              return rightStart;
+            }
+          }
+        }
+
+        //draw
+        let isDraw = false;
+        for (const row of game) {
+          isDraw = row.every((cell) => cell === 'X' || cell === 'O');
+        }
+        if (isDraw) {
+          return 'Draw';
+        }
+      };
+
+      const isGameOver = () => {
+        winner = gameWinner();
+        if (winner === 'X' || winner === 'O') {
+          gameEnded = true;
+        } else if (winner === 'Draw') {
+          gameEndInDraw = true;
+        }
+      };
+
+      const endGame = (condition) => {
+        if (condition === 'Draw') {
+          turn.innerText = "It's a draw!";
+        } else if (condition === 'Win') {
+          turn.innerText = `Player ${winner} wins!`;
+        }
+        playerTile.style.backgroundColor = 'white';
+        replayButton.style.display = 'block';
+      };
 
       //an function to determine what player is clicking and what cell?
       const whatsHappening = (clickEvent) => {
@@ -83,43 +182,61 @@
           ) {
             if (xTurn) {
               clickEvent.target.innerText = 'X';
-              xTurn = false;
-              oTurn = true;
-              turn.innerText = "Player O's turn";
-              Oplayer.style.backgroundColor = 'green';
-              Xplayer.style.backgroundColor = 'white';
+              logMove(clickEvent.target.id, 'X');
+              isGameOver();
+              if (!gameEnded) {
+                xTurn = false;
+                oTurn = true;
+                turn.innerText = "Player O's turn";
+                Oplayer.style.backgroundColor = 'green';
+                Xplayer.style.backgroundColor = 'white';
+              }
             } else if (oTurn) {
               clickEvent.target.innerText = 'O';
-              oTurn = false;
-              xTurn = true;
-              Xplayer.style.backgroundColor = 'green';
-              Oplayer.style.backgroundColor = 'white';
-              turn.innerText = "Player X's turn";
+              logMove(clickEvent.target.id, 'O');
+              isGameOver();
+              if (!gameEnded) {
+                oTurn = false;
+                xTurn = true;
+                Xplayer.style.backgroundColor = 'green';
+                Oplayer.style.backgroundColor = 'white';
+                turn.innerText = "Player X's turn";
+              }
             }
           }
         }
-      };
-
-      table.addEventListener('click', whatsHappening);
-
-      const checkForWinner = () => {
-        if (gameStarted) {
-          //what are winning combos? first check oh god this is like an algo problem...
-          //check cell one & cell two no?
+        if (gameEnded) {
+          endGame('Win');
+        } else if (gameEndInDraw) {
+          endGame('Draw');
         }
       };
 
-      if (gameEnded) {
+      const clearBoard = () => {
+        //clear game data
+        for (let row = 0; row < game.length; row++) {
+          for (let cell = 0; cell < game[row].length; cell++) {
+            game[row][cell] = null;
+          }
+        }
+        //clear physical board
+        table
+          .querySelectorAll('button')
+          .forEach((button) => (button.innerText = ''));
+        replayButton.style.display = 'none';
+        turn.innerText = '';
         dice.style.display = 'block';
-      }
+        gameEnded = false;
+        gameStarted = false;
+        gameEndInDraw = false;
+        oTurn = false;
+        xTurn = false;
+      };
+
+      //events
+      dice.addEventListener('click', rollForInitiative);
+      table.addEventListener('click', whatsHappening);
+      replayButton.addEventListener('click', clearBoard);
     </script>
   </body>
 </html>
-
-<!-- 
-tic tac toe is a 3 by 3 grid? smallest version 
-two players 
-game ends when theres's three in a row or all cells are filled (draw)
-
-probably 11 - 12.30, 2.30-3.30
- -->
