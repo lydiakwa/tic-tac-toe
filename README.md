@@ -1,2 +1,3 @@
-# tic-tac-toe
-a simple game of noughts and crosses 
+# Tic-Tac-Toe
+A simple game of noughts and crosses using vanilla Javascript, HTML, and CSS. 
+
