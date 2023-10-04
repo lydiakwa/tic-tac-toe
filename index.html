@@ -104,7 +104,6 @@
         }
 
         // game board
-        // use game state to fill in the Xs and Os
         for (let i = 0; i < gameState.board.length; i++) {
           let row = gameState.board[i];
           for (let j = 0; j < row.length; j++) {
@@ -226,7 +225,7 @@
       };
 
       //to update state
-      const whatsHappening = (clickEvent) => {
+      const trackGame = (clickEvent) => {
         if (gameState.status === 'In-Session') {
           if (
             clickEvent.target.matches('.cell') &&
@@ -266,7 +265,7 @@
 
       //events
       dice.addEventListener('click', rollForInitiative);
-      table.addEventListener('click', whatsHappening);
+      table.addEventListener('click', trackGame);
       replayButton.addEventListener('click', clearBoard);
     </script>
   </body>
