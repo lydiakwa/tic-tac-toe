@@ -2,5 +2,8 @@
 A simple game of noughts and crosses using vanilla Javascript, HTML, and CSS.
 
 <div align="center">
-<img src="https://github.com/lydiakwa/tic-tac-toe/assets/46302411/9876d4b4-71c7-4dec-8411-7dbe7a76e3a1" width="450" />
+  <img src="https://github.com/lydiakwa/tic-tac-toe/assets/46302411/5ed0c0f0-ebf9-4086-9dc0-1d22ba0193e3" width="300" />
+  <img src="https://github.com/lydiakwa/tic-tac-toe/assets/46302411/825b1ca7-4048-44f1-a998-3823cd7527d0" width="300" />
+  <img src="https://github.com/lydiakwa/tic-tac-toe/assets/46302411/e323c55c-499a-4019-b85d-2583da7640bb" width="300" />
 </div>
+
