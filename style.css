@@ -6,13 +6,15 @@ html {
 
 body {
   margin: 0%;
+  background-color: #f5f7f8;
 }
 
 header {
   text-align: center;
   padding: 10px;
   margin-bottom: 8px;
-  background-color: #fbbf24;
+  background-color: #495e57;
+  color: #f5f7f8;
 }
 #players {
   display: flex;
@@ -22,7 +24,8 @@ header {
 }
 
 .player-tile {
-  border: 1px solid black;
+  border: 1px solid #495e57;
+  background-color: #f5f7f8;
   border-radius: 6px;
   width: 48px;
   height: 36px;
@@ -45,12 +48,14 @@ header {
   width: 70px;
   background-color: white;
   border-radius: 8px;
-  border-color: black;
+  border-color: #45474b;
   border-width: 1px;
 }
 
 #dice:hover {
-  background-color: azure;
+  background-color: #495e57;
+  border-color: #495e57;
+  color: #f5f7f8;
   cursor: pointer;
   transform: scale(1.1);
 }
@@ -60,10 +65,12 @@ header {
 }
 
 #table {
-  border: 2px solid black;
+  border: 5px solid #495e57;
   min-width: 300px;
   min-height: 300px;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0cap;
+  border-radius: 10px;
 }
 
 #grid-container {
@@ -96,10 +103,12 @@ td {
   height: 88px;
   width: 88px;
   border: none;
+  border-radius: 10px;
 }
 
 .cell:hover {
-  background-color: grey;
+  background-color: #495e57;
+  color: #f5f7f8;
   cursor: pointer;
 }
 

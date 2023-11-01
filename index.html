@@ -69,6 +69,8 @@
       const table = document.querySelector('#table');
       const replayButton = document.querySelector('#restart');
       const playerTile = document.querySelector('.player-tile');
+      const lightBackgroundColour = '#F5F7F8';
+      const yellow = '#fbbf24';
 
       //state
       //status = 'Idle' | 'Win' | 'Draw' | 'In-Session'
@@ -98,9 +100,9 @@
         if (gameState.playerTurn) {
           turn.innerText = `Player ${gameState.playerTurn}'s turn`;
           oPlayer.style.backgroundColor =
-            gameState.playerTurn === 'O' ? 'green' : 'white';
+            gameState.playerTurn === 'O' ? yellow : lightBackgroundColour;
           xPlayer.style.backgroundColor =
-            gameState.playerTurn === 'X' ? 'green' : 'white';
+            gameState.playerTurn === 'X' ? yellow : lightBackgroundColour;
         }
 
         // game board
@@ -117,11 +119,11 @@
         //status
         if (gameState.status === 'Draw') {
           turn.innerText = "It's a draw!";
-          playerTile.style.backgroundColor = 'white';
+          playerTile.style.backgroundColor = lightBackgroundColour;
           replayButton.style.display = 'block';
         } else if (gameState.status === 'Win') {
           turn.innerText = `Player ${winner} wins!`;
-          playerTile.style.backgroundColor = 'white';
+          playerTile.style.backgroundColor = lightBackgroundColour;
           replayButton.style.display = 'block';
         } else if (gameState.status === 'Idle') {
           replayButton.style.display = 'none';
